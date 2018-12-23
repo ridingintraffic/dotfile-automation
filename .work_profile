@@ -1,0 +1,27 @@
+### making history bigger
+HISTSIZE=5000
+HISTFILESIZE=10000
+## more history
+export PROMPT_COMMAND="history -a; history -c; history -r; $PROMPT_COMMAND"
+
+# functions
+function food()
+{
+  arr[0]="Jimmy Johns"
+  arr[1]="Pita Inn"
+  arr[2]="Noodle and company"
+  arr[3]="Potbelly"
+  arr[4]="Chipotle"
+  arr[5]="portillos"
+  arr[6]="Wendy's"  
+  arr[7]="Josh's"
+  rand=$[$RANDOM % ${#arr[@]}]
+  echo -e "processing "
+  sleep 2
+  echo -e "still thinking "
+  sleep 2
+  echo -e "wait for it "
+  sleep 1 
+  echo $(date +%m-%d-%Y" "%H:%M:%S); 
+  echo "lunch selection says" ${arr[$rand]}
+}

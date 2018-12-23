@@ -1,0 +1,7 @@
+# home profile
+function wakehash()
+{
+    wakeonlan 60:A4:4C:2D:B0:80
+    wakeonlan 60:a4:4c:2d:b0:80
+}
+

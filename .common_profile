@@ -1,0 +1,108 @@
+
+# loading the system speicfic profiles
+if [ "Linux" = "$(uname -a | awk '{printf $1}')" ]; then
+    if [ "raspbian" = "$(cat /etc/os-release | grep ^ID= |sed 's/ID=//')" ]; then
+        echo "raspbian"
+    elif [ "kali" = "$(cat /etc/os-release | grep ^ID= |sed 's/ID=//')" ]; then 
+        echo "kali"
+    else
+        echo "unknown"
+    fi
+
+fi
+
+if [ "Mac" = "$(sw_vers|grep ProductName |awk '{printf $2}')" ]; then
+    if [ "home_computer" = "$(hostname)" ]; then
+        source "$HOME/.home_profile"
+    fi
+    if [ "work_computer" = "$(hostname)" ]; then
+        source "$HOME/.work_profile"
+    fi
+fi
+
+# vim
+set -o vi
+export EDITOR='vim'
+
+#git clone https://github.com/magicmonty/bash-git-prompt.git .bash-git-prompt --depth=1
+GIT_PROMPT_ONLY_IN_REPO=1
+  source ~/.bash-git-prompt/gitprompt.sh
+
+## functions
+function traffic-update()
+{
+  OLDDIR=$(pwd)
+  cd ~/git/github/<someuser>/traffic/
+  #git status
+  git pull
+  git add --all
+  git co -a -m "autoupdate script"
+  git push origin `git rev-parse --abbrev-ref HEAD`
+  cd $OLDDIR
+}
+
+function ctf-update()
+{
+  OLDDIR=$(pwd)
+  cd ~/git/github/<someuser>/ctf/
+  #git status
+  git pull
+  git add --all
+  git co -a -m "autoupdate script"
+  git push origin `git rev-parse --abbrev-ref HEAD`
+  cd $OLDDIR
+}
+
+# kill all history
+function KillHistory() {
+    cat /dev/null > ~/.bash_history && history -c && exit
+}
+alias killhistory=KillHistory
+
+function KillProcess() {
+   killall -9 "$@";
+}
+
+function ListRecursively() {
+   ls -R "$@";
+}
+alias lr=ListRecursively
+
+function DockerPorts(){
+   docker inspect --format='{{range $p, $conf := .NetworkSettings.Ports}} {{(index $conf 0).HostPort}} {{end}}' $(docker ps -q) 2> /dev/null
+}
+function Scratch() {
+    vim `mktemp`
+}
+alias scratch=Scratch
+
+function FindPort() {
+    lsof -n -i:$1
+}
+
+function whereami()
+{
+    loc=$(/System/Library/PrivateFrameworks/Apple80211.framework/Versions/Current/Resources/airport -I | awk '/ SSID/ {print substr($0, index($0, $2))}')
+    if [ "$loc" = "home-network" ]
+    then location="home"
+    else 
+        location="work"
+    fi
+
+}
+
+# alias-es
+alias gpox='git push origin `git rev-parse --abbrev-ref HEAD`'
+alias weather="curl wttr.in/palatine"
+alias docker_logs_latest="docker logs -f "$(docker ps -l -q)" "
+## a quick way to get out of current directory ##
+alias ..='cd ..'
+alias ...='cd ../../../'
+alias ....='cd ../../../../'
+alias .....='cd ../../../../'
+alias .4='cd ../../../../'
+alias .5='cd ../../../../..'
+
+alias vi=vim
+alias ping='ping -c 5'
+
