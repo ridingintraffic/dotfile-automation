@@ -18,6 +18,7 @@ then
     if [ "kali" = "$(cat /etc/os-release | grep ^ID= |sed 's/ID=//')" ]
     then
         linkwork "/$(whoami)"/.common_profile "$(pwd)"/.common_profile
+        linkwork "/$(whoami)"/.kali_profile "$(pwd)"/.kali_profile
         linkwork "/$(whoami)"/.bashrc "$(pwd)"/.bashrc 
         linkwork "/$(whoami)"/.vimrc "$(pwd)"/.vimrc 
         linkwork "/$(whoami)"/.tmux.conf "$(pwd)"/.tmux.conf  
@@ -34,8 +35,17 @@ then
 
     if [ "raspbian" = "$(cat /etc/os-release | grep ^ID= |sed 's/ID=//')" ]; then
     then
-        linkwork "/Users/$(whoami)/.raspbianprofile"  "$(pwd)"/.raspbian_profile
+        linkwork "/Users/$(whoami)/.rpi_profile"  "$(pwd)"/.rpi_profile
     fi
+    if [ "ubuntu" = "$(cat /etc/os-release | grep ^ID= |sed 's/ID=//')" ]; then
+    then
+        linkwork "/Users/$(whoami)/.ubu_profile"  "$(pwd)"/.ubu_profile
+    fi
+    if [ "centos" = "$(cat /etc/os-release | grep ^ID= |sed 's/ID=//')" ]; then
+    then
+        linkwork "/Users/$(whoami)/.centos_profile"  "$(pwd)"/.centos_profile
+    fi
+
 
 fi
 
